@@ -43,31 +43,31 @@ src/
 ----
 
 ## 🧱 Functional Pages Implemented
-  ###🔐 Login Page:
+  ### 🔐 Login Page:
 
-    - Fully functional with form validation
+  - Fully functional with form validation
 
-    - Saves mock login info in localStorage for now
+  - Saves mock login info in localStorage for now
 
   ### 📨 Submit Ticket Page (`/tickets`):
 
-    - Form for title, category, description, and file attachment
+  - Form for title, category, description, and file attachment
 
-    - File input UI with preview of selected filename
+  - File input UI with preview of selected filename
 
-    - `toast` notification on submission
+  - `toast` notification on submission
 
-    - Currently logs data to console — ready to be connected to Firestore
+  - Currently logs data to console — ready to be connected to Firestore
 
   ### 🧭 Layout & Routing:
 
-    - Responsive layout using Tailwind
+- Responsive layout using Tailwind
 
-    - RTL + Persian-ready setup
+  - RTL + Persian-ready setup
 
-    - Sidebar and header integrated globally in layout
+  - Sidebar and header integrated globally in layout
 
-    - AuthProvider wrapped around entire app
+  - AuthProvider wrapped around entire app
 
     ----
 
