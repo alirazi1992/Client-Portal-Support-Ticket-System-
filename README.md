@@ -63,11 +63,11 @@ src/
 
 - Responsive layout using Tailwind
 
-  - RTL + Persian-ready setup
+- RTL + Persian-ready setup
 
-  - Sidebar and header integrated globally in layout
+- Sidebar and header integrated globally in layout
 
-  - AuthProvider wrapped around entire app
+- AuthProvider wrapped around entire app
 
     ----
 
