@@ -1,41 +1,40 @@
-'use client';
+import './globals.css';
+import type { Metadata } from 'next';
+import Sidebar from '@/Components/Siderbar';
+import Header from '@/Components/Header';
+import AuthProvider from '@/context/AuthProvider';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import { useEffect, useState } from 'react';
-import { FiBell, FiUser } from 'react-icons/fi';
-
-const Header = () => {
-  const [time, setTime] = useState<string>(
-    new Date().toLocaleTimeString('fa-IR')
-  );
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(new Date().toLocaleTimeString('fa-IR'));
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <header className="bg-white rounded-md shadow p-4 flex justify-between items-center">
-      <div className="text-xl font-bold text-gray-800">پنل کاربران</div>
-
-      <div className="flex items-center gap-6 text-sm text-gray-600">
-        <span>🕒 {time}</span>
-
-        <button className="relative text-gray-600 hover:text-blue-500 transition">
-          <FiBell className="text-xl" />
-          <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-            ۳
-          </span>
-        </button>
-
-        <div className="flex items-center gap-2">
-          <FiUser className="text-xl text-gray-700" />
-          <span className="text-sm">کاربر</span>
-        </div>
-      </div>
-    </header>
-  );
+export const metadata: Metadata = {
+  title: 'Client Portal',
+  description: 'Support Ticket System',
 };
 
-export default Header;
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="fa" dir="rtl">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
+      <body className="bg-gray-100 font-sans text-right text-gray-800">
+        <AuthProvider>
+          <ToastContainer position="top-center" />
+          <div className="flex flex-col md:flex-row min-h-screen">
+            <div className="hidden md:block md:w-64">
+              <Sidebar />
+            </div>
+            <div className="flex-1 p-4 md:mr-64">
+              <Header />
+              <main className="mt-4">{children}</main>
+            </div>
+          </div>
+        </AuthProvider>
+      </body>
+    </html>
+  );
+}
