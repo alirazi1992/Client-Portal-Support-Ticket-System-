@@ -17,17 +17,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fa" dir="rtl">
+    <html lang="fa" dir="rtl" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className="bg-gray-100 font-sans text-right text-gray-800">
+      <body className="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans text-right transition-colors duration-300">
         <AuthProvider>
-          <ToastContainer position="top-center" />
+          {/* Toasts for all pages */}
+          <ToastContainer position="top-center" autoClose={3000} />
+
+          {/* Layout wrapper */}
           <div className="flex flex-col md:flex-row min-h-screen">
-            <div className="hidden md:block md:w-64">
+            {/* Sidebar */}
+            <aside className="hidden md:block md:w-64">
               <Sidebar />
-            </div>
+            </aside>
+
+            {/* Main Content */}
             <div className="flex-1 p-4 md:mr-64">
               <Header />
               <main className="mt-4">{children}</main>
