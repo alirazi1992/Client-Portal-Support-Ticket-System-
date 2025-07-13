@@ -1,4 +1,9 @@
-# Client Portal (Support Ticket System)
+# 📂 Client Portal (Support Ticket System)
+
+A multilangual support management system built with **Nestjs**, featuring role-based dashboards for users and engineers. This checkpoint includes working routing, ticket deatil views, notiifcations, 
+and responsive layouts. 
+
+---
 
 #### 📌 Checkpoint 1
 **🗓️ Date**: 2025-07-12
@@ -104,3 +109,85 @@ This is a **Single Page Application (SPA)** feel, but architected cleanly in **N
 
 ## 🔗 Status: ✅ In Progress
 Next session, we continue from here.
+
+----
+
+## 🚀 Features Implemented (Checkpoint 2)
+
+- ✅ **Next.js App Router structer** with clean foldering
+- ✅ **Engineering Dashboard** with dynamic routing (`/engineer/[name]`)
+- ✅ **Ticket Detail Page**: `/engineer/[name]/ticket/[ticketId]`
+  - View ticket title. status, clinet message
+  - Download atatchment (static/dummy)
+  - CHnage ticket status
+  - Submit engineer response
+- ✅ **Reusable Layout** with Sidebar + Header
+- ✅ **Toast notifications** using `react-toastify`
+- ✅ **User dropdown and notification icon** (with UI interactions)
+- ✅ Fully **responsive design**
+- ✅ Default **RTL (Farsi)**  layout
+- ✅ Improve styling via **Tailwind CSS**
+- ✅ Development preview overlay disabled on build
+
+----  
+
+## 📁 Folder Structer Highlights 
+
+```
+/src
+  /app
+    /engineer/[name]/page.tsx       --> Engineer dashboard
+    /engineer/[name]/ticket/[ticketId]/page.tsx  --> Ticket detail
+  /components
+    Header.tsx, Sidebar.tsx, ...
+  /context
+    AuthProvider.tsx
+  /styles
+    globals.css
+```
+
+---
+
+## 🛠️ Tech Stack 
+
+- **Framwork**: [Next.js 14+](https://nexts.org)
+- **Styling**: Tailwind CSS
+- **Rouiting**: App Router (`app/`)
+- **Icon**: react-icons
+- **Authentican Context**: Simple AuthProvider (mockup)
+
+---
+
+## 📦 Getting Started 
+
+```bash
+# 1.Clone the repo
+
+git clone https://github.com/alirazi1992/clienyt-protal-next.git
+
+# 2. Install dependecies
+npm install
+
+# 3. Run in development
+npm run dev
+
+# 4. Build for production
+npm run build && npm start
+```
+
+### 🌓  Optioal Features to Add Next 
+
+- 💾 Save engineer responses to backend
+- 📁 Upload/ down;oad real attachments
+- 🌗 Light/Dark mode toggle
+- 🌍 English-Farsi multilangual toggle
+- 🔄 Rael-time ticket updates (via WebSocket)
+
+----
+
+## 📌 Notes 
+
+- This peoject is in **checkpoint phase**_backend integration and real authentication are panding.
+- `TurboPack Dev Tools (bottom-left overaly) only appears in development and won't show in production.
+- Designed with ** Farsi (RTL)** layout as the primary language. English support coming in next phase.  
+  
