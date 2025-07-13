@@ -162,7 +162,6 @@ Next session, we continue from here.
 
 ```bash
 # 1.Clone the repo
-
 git clone https://github.com/alirazi1992/clienyt-protal-next.git
 
 # 2. Install dependecies
