@@ -1,136 +1,98 @@
 'use client';
 
-import { useRef, useState } from 'react';
-import { toast } from 'react-toastify';
+import { useEffect, useState } from 'react';
 
-export default function SubmitTicketPage() {
-  const fileRef = useRef<HTMLInputElement>(null);
+type Ticket = {
+  id: string;
+  title: string;
+  category: string;
+  status: 'pending' | 'approved' | 'resolved';
+  date: string;
+};
 
-  const [formData, setFormData] = useState({
-    title: '',
-    category: '',
-    description: '',
-  });
+const mockTickets: Ticket[] = [
+  {
+    id: 'T001',
+    title: 'عدم اتصال به اینترنت',
+    category: 'network',
+    status: 'pending',
+    date: '2025-07-10',
+  },
+  {
+    id: 'T002',
+    title: 'مشکل در ورود به سیستم',
+    category: 'account',
+    status: 'approved',
+    date: '2025-07-08',
+  },
+  {
+    id: 'T003',
+    title: 'خرابی پرینتر',
+    category: 'hardware',
+    status: 'resolved',
+    date: '2025-07-06',
+  },
+];
 
-  const [fileName, setFileName] = useState('');
+const getStatusColor = (status: Ticket['status']) => {
+  switch (status) {
+    case 'pending':
+      return 'bg-yellow-100 text-yellow-800';
+    case 'approved':
+      return 'bg-blue-100 text-blue-800';
+    case 'resolved':
+      return 'bg-green-100 text-green-800';
+  }
+};
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+export default function TicketStatusPage() {
+  const [tickets, setTickets] = useState<Ticket[]>([]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setFileName(file.name);
-    } else {
-      setFileName('');
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast.success('✅ تیکت با موفقیت ثبت شد');
-
-    console.log('Form data:', formData);
-    if (fileRef.current?.files?.[0]) {
-      console.log('Attached file:', fileRef.current.files[0].name);
-    }
-
-    // Reset form
-    setFormData({ title: '', category: '', description: '' });
-    setFileName('');
-    if (fileRef.current) fileRef.current.value = '';
-  };
+  useEffect(() => {
+    // Later: replace this with Firebase fetch
+    setTickets(mockTickets);
+  }, []);
 
   return (
     <div className="bg-white p-6 rounded shadow space-y-6">
-      <h2 className="text-xl font-semibold mb-4">ارسال تیکت پشتیبانی</h2>
+      <h2 className="text-xl font-semibold mb-4">لیست تیکت‌های ثبت شده</h2>
 
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        {/* Title */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">عنوان تیکت</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-            className="mt-1 w-full p-2 border rounded"
-          />
-        </div>
-
-        {/* Category */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">دسته‌بندی مشکل</label>
-          <select
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            required
-            className="mt-1 w-full p-2 border rounded"
-          >
-            <option value="">انتخاب کنید</option>
-            <option value="software">نرم‌افزاری</option>
-            <option value="hardware">سخت‌افزاری</option>
-            <option value="network">شبکه</option>
-            <option value="account">حساب کاربری</option>
-            <option value="other">سایر</option>
-          </select>
-        </div>
-
-        {/* Description */}
-        <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-gray-700">شرح کامل مشکل</label>
-          <textarea
-            name="description"
-            rows={4}
-            value={formData.description}
-            onChange={handleChange}
-            className="mt-1 w-full p-2 border rounded"
-            placeholder="توضیحات..."
-          />
-        </div>
-
-        {/* File Upload */}
-        <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-1">فایل ضمیمه (اختیاری)</label>
-          <div className="flex items-center gap-4">
-            <button
-              type="button"
-              onClick={() => fileRef.current?.click()}
-              className="px-4 py-2 bg-gray-100 border rounded hover:bg-gray-200 text-sm"
-            >
-              📎 انتخاب فایل
-            </button>
-            {fileName && (
-              <span className="text-sm text-gray-700 truncate">{fileName}</span>
-            )}
-          </div>
-          <input
-            ref={fileRef}
-            type="file"
-            accept=".jpg,.png,.pdf,.doc,.docx"
-            onChange={handleFileChange}
-            className="hidden"
-          />
-        </div>
-
-        {/* Submit */}
-        <div className="md:col-span-2 text-left">
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
-          >
-            ارسال تیکت
-          </button>
-        </div>
-      </form>
+      <div className="overflow-x-auto">
+        <table className="min-w-full text-sm text-right">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="p-3">شماره</th>
+              <th className="p-3">عنوان</th>
+              <th className="p-3">دسته‌بندی</th>
+              <th className="p-3">تاریخ</th>
+              <th className="p-3">وضعیت</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tickets.map((ticket, index) => (
+              <tr key={ticket.id} className="border-b hover:bg-gray-50">
+                <td className="p-3">{index + 1}</td>
+                <td className="p-3">{ticket.title}</td>
+                <td className="p-3">{ticket.category}</td>
+                <td className="p-3">{ticket.date}</td>
+                <td className="p-3">
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
+                      ticket.status
+                    )}`}
+                  >
+                    {ticket.status === 'pending'
+                      ? 'در انتظار بررسی'
+                      : ticket.status === 'approved'
+                      ? 'تأیید شده'
+                      : 'حل شده'}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
