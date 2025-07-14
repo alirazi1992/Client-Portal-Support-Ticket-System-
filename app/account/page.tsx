@@ -1,110 +1,95 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import { toast } from 'react-toastify';
+import { useUserSettings } from '@/context/UserSettingsContext';
+import ProfileSettings from '@/Components/settings/ProfileSettings';
+import SecuritySettings from '@/Components/settings/SecuritySettings';
+import NotificationSettings from '@/Components/settings/NotificationSettings';
+
+interface FormState {
+  name: string;
+  email: string;
+  password: string;
+  language: 'fa' | 'en';
+  timezone: string;
+  theme: 'light' | 'dark';
+  twoFactor: boolean;
+  notifyEmail: boolean;
+  notifySMS: boolean;
+}
 
 export default function AccountPage() {
-  const [form, setForm] = useState({
+  const { settings, setSettings } = useUserSettings();
+
+  const [form, setForm] = useState<FormState>({
     name: '',
     email: '',
     password: '',
-    language: 'fa',
-    theme: 'light',
+    language: settings.language,
+    timezone: 'Asia/Tehran',
+    theme: settings.theme,
+    twoFactor: false,
+    notifyEmail: true,
+    notifySMS: false,
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+  useEffect(() => {
+    const saved = localStorage.getItem('userSettings');
+    if (saved) {
+      setForm(JSON.parse(saved));
+    }
+  }, []);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    const isChecked = (e.target as HTMLInputElement).checked;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? isChecked : value,
+    }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+
+    localStorage.setItem('userSettings', JSON.stringify(form));
+    setSettings({
+      theme: form.theme,
+      language: form.language,
+    });
+
     toast.success('✅ تنظیمات با موفقیت ذخیره شد');
-    // Example: save to localStorage or send to backend here
+  };
+
+  const handleDelete = () => {
+    toast.error('⚠️ حساب شما حذف شد');
+  };
+
+  const clearCache = () => {
+    toast.info('♻️ تنظیمات کش پاک شد');
+    localStorage.removeItem('userSettings');
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white dark:bg-gray-900 text-gray-800 dark:text-white p-6 rounded shadow mt-10">
-      <h2 className="text-2xl font-bold mb-6 text-center">تنظیمات حساب کاربری</h2>
+    <div className="max-w-3xl mx-auto px-4">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white dark:bg-gray-900 text-gray-800 dark:text-white p-6 rounded shadow mt-6 space-y-6"
+      >
+        <h2 className="text-2xl font-bold mb-6 text-center">تنظیمات حساب کاربری</h2>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+        <ProfileSettings form={form} handleChange={handleChange} />
+        <SecuritySettings form={form} handleChange={handleChange} handleDelete={handleDelete} />
+        <NotificationSettings form={form} handleChange={handleChange} clearCache={clearCache} />
 
-        <div>
-          <label className="block text-right font-medium">نام کامل</label>
-          <input
-            type="text"
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            className="w-full p-2 border rounded mt-1 text-right"
-            placeholder="مثلاً علی رضی"
-          />
-        </div>
-
-        <div>
-          <label className="block text-right font-medium">ایمیل</label>
-          <input
-            type="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            className="w-full p-2 border rounded mt-1 text-right"
-            placeholder="example@email.com"
-          />
-        </div>
-
-        <div>
-          <label className="block text-right font-medium">رمز عبور جدید</label>
-          <input
-            type="password"
-            name="password"
-            value={form.password}
-            onChange={handleChange}
-            className="w-full p-2 border rounded mt-1 text-right"
-          />
-        </div>
-
-        <div>
-          <label className="block text-right font-medium">زبان</label>
-          <select
-            name="language"
-            value={form.language}
-            onChange={handleChange}
-            className="w-full p-2 border rounded mt-1 text-right"
-          >
-            <option value="fa">فارسی</option>
-            <option value="en">English</option>
-          </select>
-        </div>
-
-        <div>
-          <label className="block text-right font-medium">حالت نمایش</label>
-          <select
-            name="theme"
-            value={form.theme}
-            onChange={handleChange}
-            className="w-full p-2 border rounded mt-1 text-right"
-          >
-            <option value="light">روشن</option>
-            <option value="dark">تاریک</option>
-          </select>
-        </div>
-
-        <div className="flex justify-between items-center mt-6">
+        <div className="text-center mt-6">
           <button
             type="submit"
             className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
           >
             ذخیره تغییرات
-          </button>
-          <button
-            type="button"
-            onClick={() => toast.error('⚠️ حساب شما حذف شد')}
-            className="text-red-600 underline"
-          >
-            حذف حساب
           </button>
         </div>
       </form>
