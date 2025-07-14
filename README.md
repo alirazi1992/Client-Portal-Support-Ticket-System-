@@ -221,7 +221,7 @@ npm run build && npm start
 - Fixed drpdown close behaviour
 - Replaced broken link with:
   ```tsx
-  <Link href="/account"> حساب تنظیمات </Link.
+  <Link href="/account"> حساب تنظیمات /Link>
   ```
 - Fixed `DNS_PROBS_FINISHED_NXDOMAIN` issue
 - Real-time Persian clock  ⏰
