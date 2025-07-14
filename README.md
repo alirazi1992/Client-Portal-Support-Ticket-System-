@@ -189,4 +189,114 @@ npm run build && npm start
 - This peoject is in **checkpoint phase**_backend integration and real authentication are panding.
 - `TurboPack Dev Tools (bottom-left overaly) only appears in development and won't show in production.
 - Designed with ** Farsi (RTL)** layout as the primary language. English support coming in next phase.  
-  
+
+
+  -----
+# ✅ Client Portal - Checkpoint Log 
+
+📅 **Period:** 2025-07-12 -> 2025-07-14
+
+----
+
+## 🚀 Major Feature Additions 
+
+### 🔐 Account Setting Page 
+
+- **Path:** `app\account \page.tsx`
+  - Fields included:
+  - Full Name
+  - Email
+  - New Password
+  - Language Selection ( فارسی | English )
+  - Display Mode (Light / Dark )
+  - Delete Account Button
+- `useState` for state managment
+- `react-toastify` for success/error feedback
+- Fully respomsive with TailwindCSS
+
+----
+
+### 👤 Header Dropdown Fix 
+- **File:** `components/Header.tsx`
+- Fixed drpdown close behaviour
+- Replaced broken link with:
+  ```tsx
+  <Link href="/account"> حساب تنظیمات </Link.
+  ```
+- Fixed `DNS_PROBS_FINISHED_NXDOMAIN` issue
+- Real-time Persian clock  ⏰
+
+---
+
+### 🌐 RTL/LTR + Language Switing (Initial)
+
+- Used `,html lamg="fa" dir="rtl">` in `layout.tsx`
+- Added direction toggled placholder in settings
+- Prepared for global theme +language toggle
+
+  ----
+
+## 📦 Structural & Config Fixes
+
+### 🧱 Layout Fixes
+ - **File:** `app\layout.tsx`
+ - Components:
+     - Sidebar (Left)
+     - Header (Top)
+     - `ToastContainer` added globally
+     - Wrapped in `AuthProvider`
+
+### 🧪 Signup Page
+
+- **File:** `app/signup/page.tsx`
+- Fields:
+    - Persian/English Names & Titles
+    - National ID
+    - Country, Province, City 
+    - Phone + Phone + Type
+    - Address + Address Type
+- Controlled from with `useState`
+
+----
+
+## 🐞 Resolved Errors
+
+| Issue | Status |
+|-------|--------|
+| JSX namespace not found | ✅ Fixed |
+| DNS_PROBE_FINISHED_NXDOMAIN | ✅ Resolved by using `/account` instead of `/settings` |
+| `<img>` tag warning | ✅ Acknowledged; will use `<Image>` in production |
+| File state typing issue | ✅ Fixed using `File | null` |
+| Dropdown not closing | ✅ Resolved with outside click handler |
+
+
+---
+
+## 📁 Files Added/Updated 
+
+- `app/account/page.tsx`
+- `app/signup/page.tsx`
+- `components/Header.tsx`
+- `app/layout.tsx`
+- `README.md`
+
+  ----
+## 📌 Next Priorities 
+
+- [ ] Add global theme/Language context
+- [ ] Save to Firebase or backend DB
+- [ ] Add logout functionality
+- [ ] Add from validation with Yup/ Zod
+- [ ] Full i18n & a11y audit
+
+---
+
+## 📣 Summary 
+
+A full transformation intp a usable **user -facing portal** with:
+- Dynamic forms
+- User settings
+- Language/theme prep
+- Clean layout & structer
+
+Great Progress! 🎯
